@@ -46,3 +46,28 @@ if __name__ == "__main__":
     pyautogui.moveTo(100, 200, duration=0)
     pyautogui.click()
     pyautogui.moveTo(current_pos, duration=0)
+
+
+
+    # 検出したい画像ファイルのパス
+    image_path = 'edgeIcon.png'
+
+    from PIL import Image
+
+    img = Image.open(image_path)
+    resized = img.resize((int(img.width * 1.25), int(img.height * 1.25)), Image.LANCZOS)
+    resized.save('capture_scaled.png')
+    image_path = 'capture_scaled.png'
+
+    # 画面から画像を探して、位置の情報を取得する
+    location = pyautogui.locateOnScreen(image_path, confidence=0.5)  # confidenceは精度調整用
+
+    if location is not None:
+        print(f"画像が見つかりました： {location}")
+        # 例：中央の座標を取得
+        center = pyautogui.center(location)
+        print(f"中央座標： {center}")
+        # クリックなどの操作も可能
+        # pyautogui.click(center)
+    else:
+        print("画像は見つかりませんでした。")    
